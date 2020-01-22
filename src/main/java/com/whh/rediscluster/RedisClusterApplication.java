@@ -1,0 +1,16 @@
+package com.whh.rediscluster;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * @author hipi
+ */
+@SpringBootApplication
+public class RedisClusterApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(RedisClusterApplication.class, args);
+	}
+
+}
