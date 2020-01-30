@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -22,6 +23,17 @@ class RedisClusterApplicationTests {
 
 	@Test
 	public void setTest(){
+		redisTemplate.opsForSet().add("set1", 1, 2, 3, 4);
+		redisTemplate.opsForSet().add("set2", 3, 5, 1);
+
+		Set<Object> set = redisTemplate.opsForSet().difference("set1", "set2");
+		log.info("difference set: {}", set);
+
+		set = redisTemplate.opsForSet().union("set1", "set2");
+		log.info("union set: {}", set);
+
+		set = redisTemplate.opsForSet().intersect("set1", "set2");
+		log.info("intersect set: {}", set);
 
 	}
 
@@ -84,8 +96,20 @@ class RedisClusterApplicationTests {
 
 			String oldValue = (String) redisTemplate.opsForValue().getAndSet("jj3", "sd");
 			log.info("value: {}", oldValue);
+
+			redisTemplate.opsForValue().setBit("andy", 100, true);
+			Boolean fa = redisTemplate.opsForValue().getBit("andy", 100);
+			log.info("fa: {}", fa);
+
 		}
 	}
+
+
+	@Test
+    void hyperLogLogTest(){
+	    redisTemplate.opsForHyperLogLog().add("log", 1, 3, 2, 1);
+	    log.info("size:{}", redisTemplate.opsForHyperLogLog().size("log"));
+    }
 
 
 }
